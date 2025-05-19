@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MainsPro: Clear and affordable answer sheet evaluation for UPSC, UPPSC, and RO/ARO Mains. Choose your course easily and pay securely via Cashfree.">
+    <meta name="keywords" content="UPSC Mains, UPPSC Mains, RO/ARO Mains, answer sheet evaluation, exam preparation">
+    <meta name="author" content="MainsPro">
+    <title>MainsPro: Easy Mains Answer Sheet Evaluation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        /* Navigation */
+        nav {
+            background: #1e3a8a;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            padding: 0.5rem;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav ul li a:hover {
+            color: #bfdbfe;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #eff6ff;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: #1e40af;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 2rem;
+        }
+
+        /* Course Selector */
+        .course-selector {
+            background: #ffffff;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .course-selector h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: #1e40af;
+            margin-bottom: 1rem;
+        }
+
+        .course-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .course-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            transition: background 0.3s, transform 0.2s;
+            min-width: 120px;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-btn:hover {
+            background: #1e40af;
+            transform: scale(1.05);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .pricing-card {
+            background: #f9fafb;
+            padding: 1.2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: border 0.3s, transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: #2563eb;
+            transform: translateY(-5px);
+        }
+
+        .pricing-card i {
+            font-size: 1.8rem;
+            color: #2563eb;
+            margin-bottom: 0.8rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.2rem;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card p {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn {
+            background: #dc2626;
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            transition: background 0.3s, transform 0.2s;
+            touch-action: manipulation;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+
+        /* Form */
+        .form-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .form-section input,
+        .form-section select {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        .form-section .error {
+            color: #dc2626;
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        /* Pricing Calculator */
+        .calculator {
+            background: #e0f2fe;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .calculator select {
+            width: 100%;
+            max-width: 200px;
+            margin: 1rem auto;
+            padding: 0.7rem;
+        }
+
+        .calculator p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 600;
+            color: #dc2626;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 1rem;
+            color: #1e40af;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+        }
+
+        .modal-content p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .modal-content .btn {
+            margin: 0.5rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Contact */
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-section a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        footer .social-links a {
+            color: white;
+            margin: 0 0.8rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        footer .social-links a:hover {
+            color: #bfdbfe;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+
+            nav {
+                padding: 0.8rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .course-selector {
+                padding: 1.5rem;
+                margin: 1.5rem 1rem;
+            }
+
+            .course-buttons {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+
+            .course-btn {
+                min-width: 100px;
+            }
+
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .pricing {
+                grid-template-columns: repeat(2, 1fr); /* Two columns on mobile */
+                gap: 1rem;
+            }
+
+            .pricing-card {
+                padding: 1rem;
+            }
+
+            .pricing-card i {
+                font-size: 1.5rem;
+            }
+
+            .pricing-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .pricing-card p {
+                font-size: 0.9rem;
+            }
+
+            .form-section input,
+            .form-section select {
+                padding: 0.6rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.2rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .pricing {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .course-selector {
+                max-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader">
+        <i class="fas fa-spinner fa-spin fa-3x" style="color: #2563eb;"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>MainsPro: Clear & Simple Evaluation</h1>
+        <p>Choose your UPSC, UPPSC, or RO/ARO Mains course and get expert feedback easily.</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#upsc">UPSC</a></li>
+            <li><a href="#uppsc">UPPSC</a></li>
+            <li><a href="#roaro">RO/ARO</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero" id="home">
+        <h2>Evaluate Your Mains Answers with Ease</h2>
+        <p>Select your exam, choose a course, and get expert feedback to boost your preparation.</p>
+    </div>
+
+    <!-- Course Selector -->
+    <div class="course-selector">
+        <h2>Start Here: Pick Your Exam</h2>
+        <div class="course-buttons">
+            <a href="#upsc" class="course-btn" style="background: #2563eb;">UPSC Mains</a>
+            <a href="#uppsc" class="course-btn" style="background: #16a34a;">UPPSC Mains</a>
+            <a href="#roaro" class="course-btn" style="background: #7c3aed;">RO/ARO Mains</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Pricing Calculator -->
+        <div class="calculator section">
+            <h2>Check Individual Paper Cost</h2>
+            <select id="calc-exam" onchange="calculateCost()">
+                <option value="">Select Exam</option>
+                <option value="UPSC">UPSC Mains</option>
+                <option value="UPPSC">UPPSC Mains</option>
+                <option value="RO/ARO Hindi">RO/ARO Hindi Paper</option>
+                <option value="RO/ARO Essay">RO/ARO Essay Paper</option>
+            </select>
+            <p id="calc-result">Total: ₹0</p>
+        </div>
+
+        <!-- UPSC Section -->
+        <div class="section" id="upsc" style="border-left: 5px solid #2563eb;">
+            <h2>UPSC Mains Evaluation</h2>
+            <p>Choose a full course or submit individual papers for expert feedback.</p>
+            <div class="pricing">
+                <div class="pricing-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Full Course</h3>
+                    <p>₹9,999</p>
+                    <p>All UPSC Mains papers checked.</p>
+                    <button class="btn" onclick="showModal('UPSC Full Course', 9999)">Buy Now</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Individual Paper</h3>
+                    <p>₹500/paper</p>
+                    <p>GS 1-4, Essay, or Optional.</p>
+                    <button class="btn" onclick="showForm('UPSC Individual Paper')">Submit Paper</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPPSC Section -->
+        <div class="section" id="uppsc" style="border-left: 5px solid #16a34a;">
+            <h2>UPPSC Mains Evaluation</h2>
+            <p>Select full course or individual GS papers for detailed evaluation.</p>
+            <div class="pricing">
+                <div class="pricing-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Full Course</h3>
+                    <p>₹9,999</p>
+                    <p>All UPPSC Mains papers checked.</p>
+                    <button class="btn" onclick="showModal('UPPSC Full Course', 9999)">Buy Now</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Individual Paper</h3>
+                    <p>₹1,000/paper</p>
+                    <p>GS 1-6 papers.</p>
+                    <button class="btn" onclick="showForm('UPPSC Individual Paper')">Submit Paper</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RO/ARO Section -->
+        <div class="section" id="roaro" style="border-left: 5px solid #7c3aed;">
+            <h2>RO/ARO Mains Evaluation</h2>
+            <p>Pick all papers, Hindi, Essay, or individual papers for expert feedback.</p>
+            <div class="pricing">
+                <div class="pricing-card">
+                    <i class="fas fa-book"></i>
+                    <h3>All Papers</h3>
+                    <p>₹9,000</p>
+                    <p>Full RO/ARO Mains evaluation.</p>
+                    <button class="btn" onclick="showModal('RO/ARO All Papers', 9000)">Buy Now</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Hindi Papers</h3>
+                    <p>₹3,000</p>
+                    <p>All Hindi papers checked.</p>
+                    <button class="btn" onclick="showModal('RO/ARO Hindi Papers', 3000)">Buy Now</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-pen"></i>
+                    <h3>Essay Paper</h3>
+                    <p>₹4,000</p>
+                    <p>Essay paper evaluation.</p>
+                    <button class="btn" onclick="showModal('RO/ARO Essay Paper', 4000)">Buy Now</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Individual Hindi Paper</h3>
+                    <p>₹500/paper</p>
+                    <p>Single Hindi paper checked.</p>
+                    <button class="btn" onclick="showForm('RO/ARO Individual Hindi Paper')">Submit Paper</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Individual Essay Paper</h3>
+                    <p>₹600/paper</p>
+                    <p>Single Essay paper checked.</p>
+                    <button class="btn" onclick="showForm('RO/ARO Individual Essay Paper')">Submit Paper</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="section form-section" id="submission-form" style="display: none;">
+            <h2>Submit Your Paper</h2>
+            <p>Upload your answer sheet (PDF) for evaluation.</p>
+            <form id="paper-form">
+                <label for="exam-type">Exam Type</label>
+                <input type="text" id="exam-type" readonly>
+                <label for="paper-type">Paper Type</label>
+                <select id="paper-type" required>
+                    <option value="">Select Paper</option>
+                </select>
+                <p id="paper-error" class="error">Please select a paper.</p>
+                <label for="file-upload">Upload Answer Sheet (PDF)</label>
+                <input type="file" id="file-upload" accept=".pdf" required>
+                <p id="file-error" class="error">Please upload a PDF file.</p>
+                <button type="submit" class="btn">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="section testimonials">
+            <h2>What Students Say</h2>
+            <div class="testimonial">
+                <p>"MainsPro made it so easy to get my UPSC papers checked. Clear pricing and great feedback!"</p>
+                <p><strong>- Priya Sharma, UPSC Aspirant</strong></p>
+            </div>
+            <div class="testimonial">
+                <p>"The UPPSC evaluation was straightforward and helped me improve my scores."</p>
+                <p><strong>- Rohan Singh, UPPSC Candidate</strong></p>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section contact-section" id="contact">
+            <h2>Need Help?</h2>
+            <p>Email: <a href="mailto:support@mainspro.com">support@mainspro.com</a></p>
+            <p>Phone: <a href="tel:+919876543210">+91 98765 43210</a></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MainsPro. All Rights Reserved.</p>
+        <div class="social-links">
+            <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p><a href="#home" style="color: #bfdbfe; text-decoration: none;">Back to Top</a></p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p>Amount: ₹<span id="modal-amount"></span></p>
+            <p>You selected <span id="modal-package"></span>. Proceed to pay securely.</p>
+            <button class="btn" onclick="confirmPayment()">Pay Now</button>
+            <button class="btn" style="background: #6b7280;" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 500);
+        });
+
+        // Section reveal
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Pricing calculator
+        function calculateCost() {
+            const exam = document.getElementById('calc-exam').value;
+            const result = document.getElementById('calc-result');
+            if (exam === 'UPSC') result.textContent = 'Total: ₹500 per paper';
+            else if (exam === 'UPPSC') result.textContent = 'Total: ₹1,000 per paper';
+            else if (exam === 'RO/ARO Hindi') result.textContent = 'Total: ₹500 per Hindi paper';
+            else if (exam === 'RO/ARO Essay') result.textContent = 'Total: ₹600 per Essay paper';
+            else result.textContent = 'Total: ₹0';
+        }
+
+        // Modal
+        function showModal(packageName, amount) {
+            document.getElementById('modal-title').textContent = 'Confirm Your Selection';
+            document.getElementById('modal-amount').textContent = amount;
+            document.getElementById('modal-package').textContent = packageName;
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+        }
+
+        function confirmPayment() {
+            const packageName = document.getElementById('modal-package').textContent;
+            const amount = document.getElementById('modal-amount').textContent;
+            initiatePayment(packageName, amount);
+            closeModal();
+        }
+
+        // Payment
+        function initiatePayment(packageName, amount) {
+            alert(`Initiating payment for ${packageName} - ₹${amount}. Redirecting to Cashfree...`);
+            // Replace with Cashfree SDK
+            window.location.href = 'https://www.cashfree.com/';
+        }
+
+        // Form
+        function showForm(examType) {
+            const formSection = document.getElementById('submission-form');
+            const examTypeInput = document.getElementById('exam-type');
+            const paperTypeSelect = document.getElementById('paper-type');
+
+            examTypeInput.value = examType;
+            paperTypeSelect.innerHTML = '<option value="">Select Paper</option>';
+            let papers = [];
+            if (examType === 'UPSC Individual Paper') {
+                papers = ['GS 1', 'GS 2', 'GS 3', 'GS 4', 'Essay', 'Optional Paper'];
+            } else if (examType === 'UPPSC Individual Paper') {
+                papers = ['GS 1', 'GS 2', 'GS 3', 'GS 4', 'GS 5', 'GS 6'];
+            } else if (examType === 'RO/ARO Individual Hindi Paper') {
+                papers = ['Hindi Paper 1', 'Hindi Paper 2'];
+            } else if (examType === 'RO/ARO Individual Essay Paper') {
+                papers = ['Essay'];
+            }
+
+            papers.forEach(paper => {
+                const option = document.createElement('option');
+                option.value = paper;
+                option.textContent = paper;
+                paperTypeSelect.appendChild(option);
+            });
+
+            formSection.style.display = 'block';
+            window.scrollTo({ top: formSection.offsetTop, behavior: 'smooth' });
+        }
+
+        // Form validation
+        document.getElementById('paper-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const paperType = document.getElementById('paper-type').value;
+            const file = document.getElementById('file-upload').files[0];
+            const paperError = document.getElementById('paper-error');
+            const fileError = document.getElementById('file-error');
+
+            paperError.style.display = paperType ? 'none' : 'block';
+            fileError.style.display = file ? 'none' : 'block';
+
+            if (!paperType || !file) return;
+
+            const examType = document.getElementById('exam-type').value;
+            let amount;
+            if (examType.includes('UPSC')) amount = 500;
+            else if (examType.includes('UPPSC')) amount = 1000;
+            else if (examType.includes('RO/ARO Individual Hindi')) amount = 500;
+            else if (examType.includes('RO/ARO Individual Essay')) amount = 600;
+
+            let packageName = `${examType} - ${paperType}`;
+            showModal(packageName, amount);
+        });
+    </script>
+</body>
+</html>
