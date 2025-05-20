@@ -8,21 +8,22 @@
     <meta name="author" content="MainsPro">
     <title>MainsPro: Easy Mains Answer Sheet Evaluation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: #f9fafb;
-            color: #1f2937;
+            background: #f0f4f8;
+            color: #1a1a2e;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
 
         /* Loader */
@@ -47,27 +48,30 @@
 
         /* Header */
         header {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            background: linear-gradient(135deg, #2b6cb0, #3182ce);
             color: white;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
         header p {
-            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-weight: 300;
         }
 
         /* Navigation */
         nav {
-            background: #1e3a8a;
+            background: #1a1a2e;
             padding: 1rem;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -86,31 +90,52 @@
             color: white;
             text-decoration: none;
             font-size: clamp(0.9rem, 2.5vw, 1rem);
-            padding: 0.5rem;
-            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s, background 0.3s;
             white-space: nowrap;
+            border-radius: 20px;
         }
 
         nav ul li a:hover {
-            color: #bfdbfe;
+            color: #2b6cb0;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Hero Section */
         .hero {
-            background: #eff6ff;
-            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #e6f0fa, #f0f4f8);
+            padding: 4rem 1rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            z-index: 0;
         }
 
         .hero h2 {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            color: #1e40af;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: #2b6cb0;
+            font-weight: 700;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .hero p {
-            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: #4a5568;
             margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         /* Course Selector */
@@ -118,33 +143,38 @@
             background: #ffffff;
             padding: 2rem;
             margin: 2rem auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .course-selector h2 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            color: #1e40af;
-            margin-bottom: 1rem;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: #2b6cb0;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
 
         .course-buttons {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
             gap: 1rem;
+            overflow-x: auto;
+            padding: 0 1rem;
         }
 
         .course-btn {
-            background: #2563eb;
+            background: linear-gradient(135deg, #2b6cb0, #4299e1);
             color: white;
             padding: 0.8rem 2rem;
-            border-radius: 8px;
+            border-radius: 25px;
             text-decoration: none;
             font-size: clamp(0.9rem, 2.5vw, 1rem);
-            transition: background 0.3s, transform 0.2s;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
             min-width: 120px;
             min-height: 48px;
             display: flex;
@@ -153,8 +183,8 @@
         }
 
         .course-btn:hover {
-            background: #1e40af;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(43, 108, 176, 0.3);
         }
 
         /* Container */
@@ -166,24 +196,58 @@
 
         /* Section */
         .section {
-            background: white;
             padding: 2rem;
             margin-bottom: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.8s ease-in-out;
         }
 
         .section h2 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: #1a1a2e;
+            font-weight: 600;
             margin-bottom: 1.5rem;
+        }
+
+        /* Specific Section Colors */
+        #upsc {
+            background: linear-gradient(135deg, #2b6cb0, #63b3ed);
+            border-left: 5px solid #2b6cb0;
+        }
+
+        #uppsc {
+            background: linear-gradient(135deg, #38a169, #68d391);
+            border-left: 5px solid #38a169;
+        }
+
+        #roaro {
+            background: linear-gradient(135deg, #805ad5, #b794f4);
+            border-left: 5px solid #805ad5;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, #feb2b2, #fed7d7);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .testimonials {
+            background: linear-gradient(135deg, #e6f0fa, #f0f4f8);
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #a0aec0, #cbd5e0);
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .form-section {
+            background: #ffffff; /* Keep form white for clarity */
         }
 
         /* Pricing */
@@ -194,56 +258,79 @@
         }
 
         .pricing-card {
-            background: #f9fafb;
-            padding: 1.2rem;
-            border-radius: 10px;
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
             text-align: center;
-            border: 2px solid transparent;
-            transition: border 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .pricing-card:hover {
-            border-color: #2563eb;
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(43, 108, 176, 0.2);
         }
 
         .pricing-card i {
-            font-size: 1.8rem;
-            color: #2563eb;
-            margin-bottom: 0.8rem;
+            font-size: 2rem;
+            color: #2b6cb0;
+            margin-bottom: 1rem;
         }
 
         .pricing-card h3 {
-            font-size: 1.2rem;
-            color: #1e40af;
+            font-size: 1.3rem;
+            color: #1a1a2e;
+            font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .pricing-card p {
             font-size: 1rem;
-            margin-bottom: 0.8rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
         }
 
         .btn {
-            background: #dc2626;
+            background: linear-gradient(135deg, #f6e05e, #f6ad55);
             color: white;
-            padding: 0.7rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 6px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-            transition: background 0.3s, transform 0.2s;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
             touch-action: manipulation;
             min-height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .btn:hover::after {
+            width: 200px;
+            height: 200px;
         }
 
         .btn:hover {
-            background: #b91c1c;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
         }
 
         /* Form */
@@ -251,45 +338,45 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #1e40af;
+            color: #2b6cb0;
         }
 
         .form-section input,
         .form-section select {
             width: 100%;
-            padding: 0.7rem;
+            padding: 0.8rem;
             margin-bottom: 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            transition: border-color 0.3s;
+        }
+
+        .form-section input:focus,
+        .form-section select:focus {
+            border-color: #2b6cb0;
+            outline: none;
         }
 
         .form-section .error {
-            color: #dc2626;
-            font-size: 0.8rem;
+            color: #f6ad55;
+            font-size: 0.9rem;
             display: none;
         }
 
         /* Pricing Calculator */
-        .calculator {
-            background: #e0f2fe;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
         .calculator select {
             width: 100%;
             max-width: 200px;
             margin: 1rem auto;
-            padding: 0.7rem;
+            padding: 0.8rem;
+            border-radius: 8px;
         }
 
         .calculator p {
             font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 600;
-            color: #dc2626;
+            color: #1a1a2e;
         }
 
         /* Modal */
@@ -300,29 +387,35 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
             z-index: 2000;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .modal-content {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
             text-align: center;
             max-width: 400px;
             width: 90%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            animation: slideIn 0.3s ease-in-out forwards;
         }
 
         .modal-content h3 {
             margin-bottom: 1rem;
-            color: #1e40af;
+            color: #2b6cb0;
             font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 600;
         }
 
         .modal-content p {
             font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #1a1a2e;
         }
 
         .modal-content .btn {
@@ -330,27 +423,19 @@
         }
 
         /* Testimonials */
-        .testimonials {
-            background: #f1f5f9;
-            padding: 2rem;
-            border-radius: 12px;
-        }
-
         .testimonial {
-            background: white;
+            background: #ffffff;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            border-radius: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         /* Contact */
-        .contact-section {
-            text-align: center;
-        }
-
         .contact-section a {
-            color: #2563eb;
+            color: #2b6cb0;
             text-decoration: none;
+            font-weight: 600;
         }
 
         .contact-section a:hover {
@@ -359,27 +444,68 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            background: linear-gradient(135deg, #2b6cb0, #3182ce);
             color: white;
-            padding: 1.5rem;
+            padding: 2rem;
             text-align: center;
         }
 
         footer .social-links a {
             color: white;
-            margin: 0 0.8rem;
-            font-size: 1.5rem;
+            margin: 0 1rem;
+            font-size: 1.8rem;
             transition: color 0.3s;
         }
 
         footer .social-links a:hover {
-            color: #bfdbfe;
+            color: #a3bffa;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2b6cb0;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .back-to-top.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             header {
-                padding: 1.5rem 1rem;
+                padding: 1.8rem 1rem;
             }
 
             nav {
@@ -392,7 +518,7 @@
             }
 
             .hero {
-                padding: 2rem 1rem;
+                padding: 2.5rem 1rem;
             }
 
             .course-selector {
@@ -409,6 +535,7 @@
 
             .course-btn {
                 min-width: 100px;
+                padding: 0.7rem 1.5rem;
             }
 
             .container {
@@ -420,7 +547,7 @@
             }
 
             .pricing {
-                grid-template-columns: repeat(2, 1fr); /* Two columns on mobile */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
 
@@ -440,14 +567,22 @@
                 font-size: 0.9rem;
             }
 
+            .btn {
+                padding: 0.7rem 1rem;
+            }
+
             .form-section input,
             .form-section select {
-                padding: 0.6rem;
+                padding: 0.7rem;
             }
 
             .modal-content {
                 width: 95%;
-                padding: 1.2rem;
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                display: block;
             }
         }
 
@@ -457,7 +592,7 @@
             }
 
             .course-selector {
-                max-width: 600px;
+                max-width: 700px;
             }
         }
     </style>
@@ -465,13 +600,13 @@
 <body>
     <!-- Loader -->
     <div class="loader">
-        <i class="fas fa-spinner fa-spin fa-3x" style="color: #2563eb;"></i>
+        <i class="fas fa-spinner fa-spin fa-3x" style="color: #2b6cb0;"></i>
     </div>
 
     <!-- Header -->
     <header>
-        <h1>MainsPro: Clear & Simple Evaluation</h1>
-        <p>Choose your UPSC, UPPSC, or RO/ARO Mains course and get expert feedback easily.</p>
+        <h1>MainsPro: Ace Your Mains</h1>
+        <p>Expert evaluation for UPSC, UPPSC, and RO/ARO Mains. Start your journey today!</p>
     </header>
 
     <!-- Navigation -->
@@ -487,17 +622,17 @@
 
     <!-- Hero Section -->
     <div class="hero" id="home">
-        <h2>Evaluate Your Mains Answers with Ease</h2>
-        <p>Select your exam, choose a course, and get expert feedback to boost your preparation.</p>
+        <h2>Boost Your Mains Prep with Expert Feedback</h2>
+        <p>Choose your exam, submit papers, and get personalized insights to excel.</p>
     </div>
 
     <!-- Course Selector -->
     <div class="course-selector">
-        <h2>Start Here: Pick Your Exam</h2>
+        <h2>Pick Your Exam</h2>
         <div class="course-buttons">
-            <a href="#upsc" class="course-btn" style="background: #2563eb;">UPSC Mains</a>
-            <a href="#uppsc" class="course-btn" style="background: #16a34a;">UPPSC Mains</a>
-            <a href="#roaro" class="course-btn" style="background: #7c3aed;">RO/ARO Mains</a>
+            <a href="#upsc" class="course-btn" style="background: linear-gradient(135deg, #2b6cb0, #4299e1);">UPSC Mains</a>
+            <a href="#uppsc" class="course-btn" style="background: linear-gradient(135deg, #38a169, #68d391);">UPPSC Mains</a>
+            <a href="#roaro" class="course-btn" style="background: linear-gradient(135deg, #805ad5, #b794f4);">RO/ARO Mains</a>
         </div>
     </div>
 
@@ -505,7 +640,7 @@
     <div class="container">
         <!-- Pricing Calculator -->
         <div class="calculator section">
-            <h2>Check Individual Paper Cost</h2>
+            <h2>Check Paper Cost</h2>
             <select id="calc-exam" onchange="calculateCost()">
                 <option value="">Select Exam</option>
                 <option value="UPSC">UPSC Mains</option>
@@ -517,9 +652,9 @@
         </div>
 
         <!-- UPSC Section -->
-        <div class="section" id="upsc" style="border-left: 5px solid #2563eb;">
+        <div class="section" id="upsc">
             <h2>UPSC Mains Evaluation</h2>
-            <p>Choose a full course or submit individual papers for expert feedback.</p>
+            <p>Full course or individual papers with expert feedback.</p>
             <div class="pricing">
                 <div class="pricing-card">
                     <i class="fas fa-book"></i>
@@ -539,9 +674,9 @@
         </div>
 
         <!-- UPPSC Section -->
-        <div class="section" id="uppsc" style="border-left: 5px solid #16a34a;">
+        <div class="section" id="uppsc">
             <h2>UPPSC Mains Evaluation</h2>
-            <p>Select full course or individual GS papers for detailed evaluation.</p>
+            <p>Comprehensive or per-paper evaluation for success.</p>
             <div class="pricing">
                 <div class="pricing-card">
                     <i class="fas fa-book"></i>
@@ -561,9 +696,9 @@
         </div>
 
         <!-- RO/ARO Section -->
-        <div class="section" id="roaro" style="border-left: 5px solid #7c3aed;">
+        <div class="section" id="roaro">
             <h2>RO/ARO Mains Evaluation</h2>
-            <p>Pick all papers, Hindi, Essay, or individual papers for expert feedback.</p>
+            <p>Choose full, Hindi, Essay, or individual papers.</p>
             <div class="pricing">
                 <div class="pricing-card">
                     <i class="fas fa-book"></i>
@@ -626,11 +761,11 @@
         <div class="section testimonials">
             <h2>What Students Say</h2>
             <div class="testimonial">
-                <p>"MainsPro made it so easy to get my UPSC papers checked. Clear pricing and great feedback!"</p>
+                <p>"MainsPro's feedback transformed my UPSC prep. Clear, affordable, and professional!"</p>
                 <p><strong>- Priya Sharma, UPSC Aspirant</strong></p>
             </div>
             <div class="testimonial">
-                <p>"The UPPSC evaluation was straightforward and helped me improve my scores."</p>
+                <p>"The UPPSC evaluation was a game-changer. Highly recommend MainsPro!"</p>
                 <p><strong>- Rohan Singh, UPPSC Candidate</strong></p>
             </div>
         </div>
