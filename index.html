@@ -247,7 +247,7 @@
         }
 
         .form-section {
-            background: #ffffff; /* Keep form white for clarity */
+            background: #ffffff;
         }
 
         /* Pricing */
@@ -645,6 +645,8 @@
                 <option value="">Select Exam</option>
                 <option value="UPSC">UPSC Mains</option>
                 <option value="UPPSC">UPPSC Mains</option>
+                <option value="UPPSC Hindi">UPPSC Hindi Paper</option>
+                <option value="UPPSC Essay">UPPSC Essay Paper</option>
                 <option value="RO/ARO Hindi">RO/ARO Hindi Paper</option>
                 <option value="RO/ARO Essay">RO/ARO Essay Paper</option>
             </select>
@@ -676,7 +678,7 @@
         <!-- UPPSC Section -->
         <div class="section" id="uppsc">
             <h2>UPPSC Mains Evaluation</h2>
-            <p>Comprehensive or per-paper evaluation for success.</p>
+            <p>Comprehensive, per-paper, Hindi, or Essay evaluation for success.</p>
             <div class="pricing">
                 <div class="pricing-card">
                     <i class="fas fa-book"></i>
@@ -691,6 +693,20 @@
                     <p>₹1,000/paper</p>
                     <p>GS 1-6 papers.</p>
                     <button class="btn" onclick="showForm('UPPSC Individual Paper')">Submit Paper</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Individual Hindi Paper</h3>
+                    <p>₹300/paper</p>
+                    <p>Single Hindi paper checked.</p>
+                    <button class="btn" onclick="showForm('UPPSC Individual Hindi Paper')">Submit Paper</button>
+                </div>
+                <div class="pricing-card">
+                    <i class="fas fa-pen"></i>
+                    <h3>Individual Essay Paper</h3>
+                    <p>₹400/paper</p>
+                    <p>Single Essay paper checked.</p>
+                    <button class="btn" onclick="showForm('UPPSC Individual Essay Paper')">Submit Paper</button>
                 </div>
             </div>
         </div>
@@ -837,6 +853,8 @@
             const result = document.getElementById('calc-result');
             if (exam === 'UPSC') result.textContent = 'Total: ₹500 per paper';
             else if (exam === 'UPPSC') result.textContent = 'Total: ₹1,000 per paper';
+            else if (exam === 'UPPSC Hindi') result.textContent = 'Total: ₹300 per Hindi paper';
+            else if (exam === 'UPPSC Essay') result.textContent = 'Total: ₹400 per Essay paper';
             else if (exam === 'RO/ARO Hindi') result.textContent = 'Total: ₹500 per Hindi paper';
             else if (exam === 'RO/ARO Essay') result.textContent = 'Total: ₹600 per Essay paper';
             else result.textContent = 'Total: ₹0';
@@ -881,6 +899,10 @@
                 papers = ['GS 1', 'GS 2', 'GS 3', 'GS 4', 'Essay', 'Optional Paper'];
             } else if (examType === 'UPPSC Individual Paper') {
                 papers = ['GS 1', 'GS 2', 'GS 3', 'GS 4', 'GS 5', 'GS 6'];
+            } else if (examType === 'UPPSC Individual Hindi Paper') {
+                papers = ['Hindi Paper'];
+            } else if (examType === 'UPPSC Individual Essay Paper') {
+                papers = ['Essay Paper'];
             } else if (examType === 'RO/ARO Individual Hindi Paper') {
                 papers = ['Hindi Paper 1', 'Hindi Paper 2'];
             } else if (examType === 'RO/ARO Individual Essay Paper') {
@@ -914,7 +936,9 @@
             const examType = document.getElementById('exam-type').value;
             let amount;
             if (examType.includes('UPSC')) amount = 500;
-            else if (examType.includes('UPPSC')) amount = 1000;
+            else if (examType.includes('UPPSC Individual Paper')) amount = 1000;
+            else if (examType.includes('UPPSC Individual Hindi')) amount = 300;
+            else if (examType.includes('UPPSC Individual Essay')) amount = 400;
             else if (examType.includes('RO/ARO Individual Hindi')) amount = 500;
             else if (examType.includes('RO/ARO Individual Essay')) amount = 600;
 
